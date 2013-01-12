@@ -108,14 +108,10 @@ public class MainActivity extends Activity
 		// TODO Auto-generated method stub
 		Imgproc.cvtColor(inputFrame, mHsv, Imgproc.COLOR_RGB2HSV);
 		mHsv.get(0, 0, mImg);
-		final int height = mHsv.rows();
-		final int width = mHsv.cols();
-		for(int y = 0;y < height;y++){
-			final int yy = y*width;
-			for(int x = 0;x < width;x++){
-				final int pos = (yy + x)*3;
-				mImg[pos] =   (byte) ((mImg[pos] + mSft/3) % 180);
-			}
+		final int imSize = mHsv.rows()*mHsv.cols()*3;
+		final int sft = (mSft >> 2);
+		for(int i = 0;i < imSize;i+=3){
+			mImg[i] =   (byte) ((mImg[i] + sft) % 180);
 		}
 		mHsv.put(0, 0, mImg);
 		Imgproc.cvtColor(mHsv, mHsv, Imgproc.COLOR_HSV2RGB);
